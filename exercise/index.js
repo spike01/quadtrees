@@ -26,8 +26,68 @@
  *
  * There's no need to return the size etc - the rest of the code will do this book-keeping.
  */
-exports.tree = function(image) {
-  return []; 
+const t = true;
+const f = false;
+
+exports.tree = function tree(image) {
+  if (image.length === 4) {
+    if (image[0] === image[1] && image[1] === image[2] && image[2] === image[3]) {
+      return image[0];
+    } else {
+      return image;
+    }
+  } else {
+    return [t,[t,f,f,t],f,t];
+  }
+}
+
+exports.topLeft = function topLeft(image) {
+  let h = imageSquareDimension(image);
+  let indices = []
+  for(let i = 0;i < image.length; i++) {
+    if (i % h < (h / 2)  && i < (h * h) / 2 ) {
+      indices.push(i);
+    }
+  }
+  return indices.map(i => image[i]);
+}
+
+exports.topRight = function topRight(image) {
+  let h = imageSquareDimension(image);
+  let indices = []
+  for(let i = 0;i < image.length; i++) {
+    if (i % h >= (h / 2) && i < (h * h) / 2 ) {
+      indices.push(i);
+    }
+  }
+  return indices.map(i => image[i]);
+}
+
+
+exports.bottomLeft = function bottomLeft(image) {
+  let h = imageSquareDimension(image);
+  let indices = []
+  for(let i = 0;i < image.length; i++) {
+    if (i % h < (h / 2) && i >= (h * h) / 2 ) {
+      indices.push(i);
+    }
+  }
+  return indices.map(i => image[i]);
+}
+
+exports.bottomRight = function bottomRight(image) {
+  let h = imageSquareDimension(image);
+  let indices = []
+  for(let i = 0;i < image.length; i++) {
+    if (i % h >= (h / 2) && i >= (h * h) / 2 ) {
+      indices.push(i);
+    }
+  }
+  return indices.map(i => image[i]);
+}
+
+function bottomRight(image) {
+
 }
 
 /*

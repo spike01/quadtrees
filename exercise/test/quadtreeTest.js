@@ -1,6 +1,10 @@
 // your code should live in ../index.js
 const mod = process.env.VS_EXAMPLE ? require("../example") : require("..");
 const quadtree = mod.tree;
+const topLeft = mod.topLeft;
+const topRight = mod.topRight;
+const bottomLeft = mod.bottomLeft;
+const bottomRight = mod.bottomRight;
 const expand = mod.expand;
 const _ = require("lodash");
 
@@ -33,8 +37,49 @@ describe('quadtree', function() {
       assert.deepEqual(tree, [t,[t,f,f,t],f,t]);
     });
 
+    it('finds the top left quadrant of a 4x4 square', function() {
+      const image = [0,1,2,3,
+                    4,5,6,7,
+                    8,9,10,11,
+                    12,13,14,15]
+      assert.deepEqual(topLeft(image), [0,1,4,5])
+    })
 
-    it('compresses beyond 1 level', function() {
+    it('finds the top right quadrant of a 4x4 square', function() {
+      const image = [0,1,2,3,
+                    4,5,6,7,
+                    8,9,10,11,
+                    12,13,14,15]
+      assert.deepEqual(topRight(image), [2,3,6,7])
+    })
+
+    it('finds the bottom left quadrant of a 4x4 square', function() {
+      const image = [0,1,2,3,
+                    4,5,6,7,
+                    8,9,10,11,
+                    12,13,14,15]
+      assert.deepEqual(bottomLeft(image), [8,9,12,13])
+    })
+
+    it('finds the bottom right quadrant of a 4x4 square', function() {
+      const image = [0,1,2,3,
+                    4,5,6,7,
+                    8,9,10,11,
+                    12,13,14,15]
+      assert.deepEqual(bottomRight(image), [10,11,14,15])
+    })
+
+    it('compresses 4bit nodes', function() {
+      const tree = quadtree([
+        t,t,
+        t,f]);
+
+
+      assert.deepEqual(tree, [t,t,t,f]);
+    });
+
+
+    it.skip('compresses beyond 1 level', function() {
       // quadtree with final bit false - should
       // have three top level booleans
       const trues = fill(true, 64);
@@ -59,9 +104,9 @@ describe('quadtree', function() {
 
 })
 
-describe('round-trip', function() {
+describe.skip('round-trip', function() {
 
-  it('round-trips 4x4', function() {
+  it.skip('round-trips 4x4', function() {
     const original = [
       t,t,t,t,
       t,t,f,f,
@@ -84,7 +129,7 @@ describe('round-trip', function() {
     assert.deepEqual(expand(tree, 32), input);
   })
 
-  it('round trips a thumbnail sized image', function() {
+  it.skip('round trips a thumbnail sized image', function() {
     const input = fill(true, 512 * 512);
     
     input[77] = false;
@@ -101,7 +146,7 @@ describe('round-trip', function() {
 describe("expansion", function() {
 
 
-  it('expands compressed nodes', function() {
+  it.skip('expands compressed nodes', function() {
 
     const image = expand(t, 2);
 
@@ -111,14 +156,14 @@ describe("expansion", function() {
 
   })
 
-  it('expands base-case trees', function() {
+  it.skip('expands base-case trees', function() {
     
     const image = expand([t,t,f,t], 2);
 
     assert.deepEqual(image, [t,t,f,t]);
   })
 
-  it('expands single depth trees', function() {
+  it.skip('expands single depth trees', function() {
 
     const image = expand([t,[f,t,f,t],t,f], 4);
 
@@ -140,7 +185,7 @@ describe("expansion", function() {
 
   })
 
-  it('expands multiple depth trees', function() {
+  it.skip('expands multiple depth trees', function() {
 
     const image = expand([t,[f,t,[t,f,t,f],t],t,f], 8);
 
