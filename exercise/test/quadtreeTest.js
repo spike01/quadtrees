@@ -79,7 +79,7 @@ describe('quadtree', function() {
     });
 
 
-    it.skip('compresses beyond 1 level', function() {
+    it('compresses beyond 1 level', function() {
       // quadtree with final bit false - should
       // have three top level booleans
       const trues = fill(true, 64);

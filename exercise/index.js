@@ -1,4 +1,5 @@
 "use strict";
+const _ = require("lodash/range")
 
 /*
  * Image is an array of booleans = [true, false, true, ...]
@@ -28,18 +29,6 @@
  */
 const t = true;
 const f = false;
-
-exports.tree = function tree(image) {
-  if (image.length === 4) {
-    if (image[0] === image[1] && image[1] === image[2] && image[2] === image[3]) {
-      return image[0];
-    } else {
-      return image;
-    }
-  } else {
-    return [t,[t,f,f,t],f,t];
-  }
-}
 
 exports.topLeft = function topLeft(image) {
   let h = imageSquareDimension(image);
@@ -86,8 +75,23 @@ exports.bottomRight = function bottomRight(image) {
   return indices.map(i => image[i]);
 }
 
-function bottomRight(image) {
 
+
+exports.tree = function tree(image) {
+  if (image.length === 4) {
+    if (image[0] === image[1] && image[1] === image[2] && image[2] === image[3]) {
+      return image[0];
+    } else {
+      return image;
+    }
+  } else {
+    return tree([
+      tree(exports.topLeft(image)),
+      tree(exports.topRight(image)),
+      tree(exports.bottomLeft(image)),
+      tree(exports.bottomRight(image))
+    ]);
+  }
 }
 
 /*
